@@ -1,0 +1,117 @@
+<div class="flex justify-between">
+    <h4>Thông Tin Khách Hàng</h4>
+    <div class="flex gap-1">
+        <p-fileupload mode="basic" name="excel" chooseIcon="pi pi-upload" url="http://backend_dev.test/api/thuongmai/upload" (onUpload)="uploadAuto($event)" maxFileSize="1000000" method="post" [auto]="true" chooseLabel="Browse" />
+        <p-button (onClick)="saveEdit()" label="Save" icon="pi pi-check" />
+        <p-button (onClick)="deleteSelected()" label="Delete" icon="pi pi-trash" />
+    </div>
+</div>
+<div class="card">
+    <!-- [size]="'large'" -->
+    <p-table
+        #dt2
+        showGridlines
+        [value]="dataTM"
+        page
+        [globalFilterFields]="['khach_hang','mau_model']"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [loading]="loading"
+        [paginator]="true"
+        [first]="first"
+        [rows]="rows"
+        [showCurrentPageReport]="true"
+        [showJumpToPageDropdown]="false"
+        currentPageReportTemplate="Rows {totalRecords}"
+    >
+        // [size]="'large'" showGridlines
+        <ng-template #caption>
+            <div class="flex">
+                <p-iconfield iconPosition="left" class="ml-auto">
+                    <p-inputicon>
+                        <i class="pi pi-search"></i>
+                    </p-inputicon>
+                    <input pInputText type="text" (input)="search($event)" placeholder="Search keyword" />
+                </p-iconfield>
+            </div>
+        </ng-template>
+        <ng-template #header>
+            <tr class="font-bold custom_abc">
+                <th>Nhà máy</th>
+                <th>Khách hàng</th>
+                <th>Mã hàng</th>
+                <th>Màu/Model</th>
+                <th>Mùa</th>
+                <th>Hình in</th>
+                <th>Số hình in</th>
+                <th>SP bàn</th>
+                <th>SP oval</th>
+                <th>SP kiểm</th>
+                <th>SP sấy ép</th>
+                <th>SP ủi</th>
+                <th>SP chụp băng</th>
+                <th>SP pha màu</th>
+                <th>Thực in</th>
+                <th>Đơn giá</th>
+                <th>Giá vốn</th>
+                <th [colSpan]="2">dk</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-dataTM>
+            <tr class="custom_abc1">
+                @if(arrIdEdit.includes(dataTM.id)){
+                <td>
+                    <input [style.width.px]="80" pInputText [(ngModel)]="dataTM.nha_may" type="text" pSize="small" />
+                </td>
+                <td><input (input)="updateWidth(dataTM)" [style.width.px]="80" pInputText [(ngModel)]="dataTM.khach_hang" type="text" pSize="small" /></td>
+                <td><input [style.width.px]="80" pInputText [(ngModel)]="dataTM.ma_hang" type="text" pSize="small" /></td>
+                <td><input [style.width.px]="80" pInputText [(ngModel)]="dataTM.mau_model" type="text" pSize="small" /></td>
+                <td><input [style.width.px]="80" pInputText [(ngModel)]="dataTM.mua" type="text" pSize="small" /></td>
+                <td><input [style.width.px]="80" pInputText [(ngModel)]="dataTM.hinh_in" type="text" pSize="small" /></td>
+                <td><input [style.width.px]="40" pInputText [(ngModel)]="dataTM.so_hinh_in" type="text" pSize="small" /></td>
+                <td><input [style.width.px]="40" pInputText [(ngModel)]="dataTM.sp_ban" type="text" pSize="small" /></td>
+                <td><input [style.width.px]="40" pInputText [(ngModel)]="dataTM.sp_oval" type="text" pSize="small" /></td>
+                <td><input [style.width.px]="40" pInputText [(ngModel)]="dataTM.sp_kiem" type="text" pSize="small" /></td>
+                <td><input [style.width.px]="40" pInputText [(ngModel)]="dataTM.sp_say_ep" type="text" pSize="small" /></td>
+                <td><input [style.width.px]="40" pInputText [(ngModel)]="dataTM.sp_ui" type="text" pSize="small" /></td>
+                <td><input [style.width.px]="40" pInputText [(ngModel)]="dataTM.sp_chup_bang" type="text" pSize="small" /></td>
+                <td><input [style.width.px]="40" pInputText [(ngModel)]="dataTM.sp_pha_mau" type="text" pSize="small" /></td>
+                <td><input [style.width.px]="70" pInputText [(ngModel)]="dataTM.thuc_in" type="text" pSize="small" /></td>
+                <td><input [style.width.px]="80" pInputText [(ngModel)]="dataTM.don_gia" type="text" pSize="small" /></td>
+                <td><input [style.width.px]="80" pInputText [(ngModel)]="dataTM.gia_von" type="text" pSize="small" /></td>
+                <!-- <td><p-checkbox #checkbox [(ngModel)]="checked" /></td> -->
+                <td [colSpan]="2" class="text-center"><i (click)="can_Edit(dataTM.id)" class="pi pi-times text-success text-bg-success"></i></td>
+
+                }@else {
+
+                <td>{{ dataTM.nha_may }}</td>
+                <td>{{ dataTM.khach_hang }}</td>
+                <td>{{ dataTM.ma_hang }}</td>
+                <td>{{ dataTM.mau_model }}</td>
+                <td>{{ dataTM.mua }}</td>
+                <td>{{ dataTM.hinh_in }}</td>
+                <td>{{ dataTM.so_hinh_in }}</td>
+                <td>{{ dataTM.sp_ban }}</td>
+                <td>{{ dataTM.sp_oval }}</td>
+                <td>{{ dataTM.sp_kiem || 0 }}</td>
+                <td>{{ dataTM.sp_say_ep }}</td>
+                <td>{{ dataTM.sp_ui }}</td>
+                <td>{{ dataTM.sp_chup_bang }}</td>
+                <td>{{ dataTM.sp_pha_mau }}</td>
+                <td>{{ dataTM.thuc_in }}</td>
+                <td>{{ dataTM.don_gia }}</td>
+                <td>{{ dataTM.gia_von }}</td>
+                <td><p-checkbox [name]="dataTM.id" [(ngModel)]="checked" value="{{dataTM.id}}" /></td>
+                <td><i (click)="edit_row($event,dataTM)" class="pi pi-pen-to-square text-success text-bg-success"></i></td>
+                }
+            </tr>
+        </ng-template>
+        <ng-template #emptymessage>
+            <tr>
+                <td class="text-center" colspan="18">Không Có Dữ Liệu.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+<p-toast position="top-center" />
+<!-- (onPageChange)="onPageChange($event)" -->
