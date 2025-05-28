@@ -54,16 +54,8 @@ export class KeHoachComponent implements OnInit {
         console.log('pppppppppp, ');
         this.loadData();
     }
-
-    dataAdd: any[] = [
-        {
-            id_thuong_mai: '',
-            po: '',
-            slhd_tong: '',
-            slhd: '',
-            size: ''
-        }
-    ];
+    id_thuong_mai: string = '';
+    dataAdd: any[] = [];
     dataTM: any[] = [];
     dataKH: any[] = [];
     dataThuongMaiById: any[] = [];
@@ -73,8 +65,6 @@ export class KeHoachComponent implements OnInit {
     visible: boolean = false;
     visibleDrawer: boolean = false;
     visibleDrawerAddData: boolean = false;
-
-    id_thuong_mai: string = '';
 
     loadData() {
         console.log('2213');
@@ -89,6 +79,7 @@ export class KeHoachComponent implements OnInit {
     search(event: any) {}
     showTT(id: string) {
         this.id_thuong_mai = id;
+        // this.dataAdd.id_thuong_mai = id;
         console.log(id, 'idddd');
         this.keHoachService.getDataById(id).subscribe((data: any) => {
             this.visibleDrawer = true;
@@ -97,18 +88,27 @@ export class KeHoachComponent implements OnInit {
             console.log('🚀 ~ KeHoachComponent ~ this.keHoachService.getDataById ~ data:', this.dataKH);
         });
     }
-
+    //
     addRow() {
+        console.log(this.dataAdd, 'dataAdd');
         this.dataAdd.unshift({
             id_thuong_mai: this.id_thuong_mai,
             po: '',
             slhd_tong: '',
             slhd: '',
-            size: ''
+            nhom_size: ''
         });
     }
+
     showAdd() {
         this.visibleDrawerAddData = true;
+        this.dataAdd.unshift({
+            id_thuong_mai: this.id_thuong_mai,
+            po: '',
+            slhd_tong: '',
+            slhd: '',
+            nhom_size: ''
+        });
     }
 
     cancel_add() {
@@ -119,7 +119,7 @@ export class KeHoachComponent implements OnInit {
                 po: '',
                 slhd_tong: '',
                 slhd: '',
-                size: ''
+                nhom_size: ''
             }
         ];
     }

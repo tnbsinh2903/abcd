@@ -56,7 +56,7 @@ class KeHoachController extends Controller
     public function create(Request $request)
     {
         try {
-            echo "0000";
+
             $data = $request->all();
             echo json_encode($data, JSON_UNESCAPED_UNICODE);
             KeHoachSanXuat::create($data);
