@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\KeHoachController;
 use App\Http\Controllers\NhanVienController;
 use App\Http\Controllers\ThuongMaiController;
 use App\Http\Controllers\Usercontroller;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/user', function (Request $request) {
@@ -27,4 +29,8 @@ Route::middleware('api')->group(function () {
     Route::put('/thuongmai/update', [ThuongMaiController::class, 'update'])->name('thuongmai.update');
     Route::post('/thuongmai/delete', [ThuongMaiController::class, 'delete'])->name('thuongmai.delete');
     // Route::get('/thuongmai', [ThuongMaiController::class, 'search'])->name('thuongmai.search');
+
+    Route::get('/kehoach', [KeHoachController::class, 'getDataThuongMai']);
+    Route::get('/kehoach/{id}', [KeHoachController::class, 'getDataById']);
+    Route::post('/kehoach/create', [KeHoachController::class, 'create']);
 });

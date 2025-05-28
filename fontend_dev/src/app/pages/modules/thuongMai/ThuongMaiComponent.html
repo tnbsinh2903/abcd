@@ -1,13 +1,21 @@
 <div class="flex justify-between">
     <h4>Thông Tin Khách Hàng</h4>
     <div class="flex gap-1">
-        <p-fileupload mode="basic" name="excel" chooseIcon="pi pi-upload" url="http://backend_dev.test/api/thuongmai/upload" (onUpload)="uploadAuto($event)" maxFileSize="1000000" method="post" [auto]="true" chooseLabel="Browse" />
-        <p-button (onClick)="saveEdit()" label="Save" icon="pi pi-check" />
-        <p-button (onClick)="deleteSelected()" label="Delete" icon="pi pi-trash" />
+        <p-fileupload mode="basic" name="excel" chooseIcon="pi pi-upload" url="http://backend_dev.test/api/thuongmai/upload" (onUpload)="uploadAuto($event)" maxFileSize="1000000" method="post" [auto]="true" chooseLabel="Up File" />
+        <p-button (onClick)="saveEdit()" label="Save" severity="help" icon="pi pi-check" />
+        <p-button (onClick)="deleteSelected()" label="Delete" severity="danger" icon="pi pi-trash" />
     </div>
 </div>
 <div class="card">
     <!-- [size]="'large'" -->
+    <div class="flex">
+        <p-iconfield iconPosition="left" class="ml-auto">
+            <p-inputicon>
+                <i class="pi pi-search"></i>
+            </p-inputicon>
+            <input pInputText type="text" (input)="search($event)" placeholder="Search keyword" />
+        </p-iconfield>
+    </div>
     <p-table
         #dt2
         showGridlines
@@ -25,16 +33,7 @@
         currentPageReportTemplate="Rows {totalRecords}"
     >
         // [size]="'large'" showGridlines
-        <ng-template #caption>
-            <div class="flex">
-                <p-iconfield iconPosition="left" class="ml-auto">
-                    <p-inputicon>
-                        <i class="pi pi-search"></i>
-                    </p-inputicon>
-                    <input pInputText type="text" (input)="search($event)" placeholder="Search keyword" />
-                </p-iconfield>
-            </div>
-        </ng-template>
+
         <ng-template #header>
             <tr class="font-bold custom_abc">
                 <th>Nhà máy</th>
@@ -54,7 +53,7 @@
                 <th>Thực in</th>
                 <th>Đơn giá</th>
                 <th>Giá vốn</th>
-                <th [colSpan]="2">dk</th>
+                <th [colSpan]="2"></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-dataTM>
@@ -63,24 +62,24 @@
                 <td>
                     <input [style.width.px]="80" pInputText [(ngModel)]="dataTM.nha_may" type="text" pSize="small" />
                 </td>
-                <td><input (input)="updateWidth(dataTM)" [style.width.px]="80" pInputText [(ngModel)]="dataTM.khach_hang" type="text" pSize="small" /></td>
+                <td><input [style.width.px]="80" pInputText [(ngModel)]="dataTM.khach_hang" type="text" pSize="small" /></td>
                 <td><input [style.width.px]="80" pInputText [(ngModel)]="dataTM.ma_hang" type="text" pSize="small" /></td>
                 <td><input [style.width.px]="80" pInputText [(ngModel)]="dataTM.mau_model" type="text" pSize="small" /></td>
                 <td><input [style.width.px]="80" pInputText [(ngModel)]="dataTM.mua" type="text" pSize="small" /></td>
                 <td><input [style.width.px]="80" pInputText [(ngModel)]="dataTM.hinh_in" type="text" pSize="small" /></td>
                 <td><input [style.width.px]="40" pInputText [(ngModel)]="dataTM.so_hinh_in" type="text" pSize="small" /></td>
-                <td><input [style.width.px]="40" pInputText [(ngModel)]="dataTM.sp_ban" type="text" pSize="small" /></td>
-                <td><input [style.width.px]="40" pInputText [(ngModel)]="dataTM.sp_oval" type="text" pSize="small" /></td>
-                <td><input [style.width.px]="40" pInputText [(ngModel)]="dataTM.sp_kiem" type="text" pSize="small" /></td>
-                <td><input [style.width.px]="40" pInputText [(ngModel)]="dataTM.sp_say_ep" type="text" pSize="small" /></td>
-                <td><input [style.width.px]="40" pInputText [(ngModel)]="dataTM.sp_ui" type="text" pSize="small" /></td>
-                <td><input [style.width.px]="40" pInputText [(ngModel)]="dataTM.sp_chup_bang" type="text" pSize="small" /></td>
-                <td><input [style.width.px]="40" pInputText [(ngModel)]="dataTM.sp_pha_mau" type="text" pSize="small" /></td>
+                <td><input [style.width.px]="40" pInputText [(ngModel)]="dataTM.so_phut_ban" type="text" pSize="small" /></td>
+                <td><input [style.width.px]="40" pInputText [(ngModel)]="dataTM.so_phut_oval" type="text" pSize="small" /></td>
+                <td><input [style.width.px]="40" pInputText [(ngModel)]="dataTM.so_phut_kiem" type="text" pSize="small" /></td>
+                <td><input [style.width.px]="40" pInputText [(ngModel)]="dataTM.so_phut_say_ep" type="text" pSize="small" /></td>
+                <td><input [style.width.px]="40" pInputText [(ngModel)]="dataTM.so_phut_ui" type="text" pSize="small" /></td>
+                <td><input [style.width.px]="40" pInputText [(ngModel)]="dataTM.so_phut_chup_bang" type="text" pSize="small" /></td>
+                <td><input [style.width.px]="40" pInputText [(ngModel)]="dataTM.so_phut_pha_mau" type="text" pSize="small" /></td>
                 <td><input [style.width.px]="70" pInputText [(ngModel)]="dataTM.thuc_in" type="text" pSize="small" /></td>
                 <td><input [style.width.px]="80" pInputText [(ngModel)]="dataTM.don_gia" type="text" pSize="small" /></td>
                 <td><input [style.width.px]="80" pInputText [(ngModel)]="dataTM.gia_von" type="text" pSize="small" /></td>
                 <!-- <td><p-checkbox #checkbox [(ngModel)]="checked" /></td> -->
-                <td [colSpan]="2" class="text-center"><i (click)="can_Edit(dataTM.id)" class="pi pi-times text-success text-bg-success"></i></td>
+                <td [colSpan]="2" class="text-center"><i (click)="cancel_Edit(dataTM.id)" class="pi pi-times text-success text-bg-success"></i></td>
 
                 }@else {
 
@@ -91,16 +90,16 @@
                 <td>{{ dataTM.mua }}</td>
                 <td>{{ dataTM.hinh_in }}</td>
                 <td>{{ dataTM.so_hinh_in }}</td>
-                <td>{{ dataTM.sp_ban }}</td>
-                <td>{{ dataTM.sp_oval }}</td>
-                <td>{{ dataTM.sp_kiem || 0 }}</td>
-                <td>{{ dataTM.sp_say_ep }}</td>
-                <td>{{ dataTM.sp_ui }}</td>
-                <td>{{ dataTM.sp_chup_bang }}</td>
-                <td>{{ dataTM.sp_pha_mau }}</td>
-                <td>{{ dataTM.thuc_in }}</td>
-                <td>{{ dataTM.don_gia }}</td>
-                <td>{{ dataTM.gia_von }}</td>
+                <td>{{ dataTM.so_phut_ban == 0 ? '' : dataTM.so_phut_ban}}</td>
+                <td>{{ dataTM.so_phut_oval == 0 ? '': dataTM.so_phut_oval }}</td>
+                <td>{{ dataTM.so_phut_kiem == 0 ? '' : dataTM.so_phut_kiem }}</td>
+                <td>{{ dataTM.so_phut_say_ep == 0 ? '' : dataTM.so_phut_say_ep}}</td>
+                <td>{{ dataTM.so_phut_ui== 0 ? '' : dataTM.so_phut_ui }}</td>
+                <td>{{ dataTM.so_phut_chup_bang== 0 ? '' : dataTM.so_phut_chup_bang }}</td>
+                <td>{{ dataTM.so_phut_pha_mau == 0 ? '' : dataTM.so_phut_pha_mau}}</td>
+                <td>{{ dataTM.thuc_in== 0 ? '' : dataTM.thuc_in }}</td>
+                <td>{{ dataTM.don_gia== 0 ? '' : dataTM.don_gia }}</td>
+                <td>{{ dataTM.gia_von== 0 ? '' : dataTM.gia_von }}</td>
                 <td><p-checkbox [name]="dataTM.id" [(ngModel)]="checked" value="{{dataTM.id}}" /></td>
                 <td><i (click)="edit_row($event,dataTM)" class="pi pi-pen-to-square text-success text-bg-success"></i></td>
                 }
@@ -113,5 +112,6 @@
         </ng-template>
     </p-table>
 </div>
+<p-confirmdialog />
 <p-toast position="top-center" />
 <!-- (onPageChange)="onPageChange($event)" -->

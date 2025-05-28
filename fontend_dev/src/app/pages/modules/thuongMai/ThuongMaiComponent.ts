@@ -14,27 +14,40 @@ import { PaginatorModule } from 'primeng/paginator';
 import { FileUploadEvent, FileUploadModule } from 'primeng/fileupload';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
+import { MessageService, ConfirmationService } from 'primeng/api';
 import { CheckboxModule } from 'primeng/checkbox';
-interface toats {
-    serverity: string;
-    sumary: string;
-    detail: string;
-    life: number;
-}
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+
 @Component({
     selector: 'app-thuong-mai',
     templateUrl: './ThuongMaiComponent.html',
     styleUrls: ['./ThuongMaiComponent.scss'],
-    providers: [MessageService],
-    imports: [TableModule, IconFieldModule, InputIconModule, MultiSelectModule, TagModule, ProgressSpinnerModule, SelectModule, FormsModule, CheckboxModule, InputTextModule, PaginatorModule, FileUploadModule, ButtonModule, ToastModule]
+    providers: [MessageService, ConfirmationService],
+    imports: [
+        ConfirmDialogModule,
+        TableModule,
+        IconFieldModule,
+        InputIconModule,
+        MultiSelectModule,
+        TagModule,
+        ProgressSpinnerModule,
+        SelectModule,
+        FormsModule,
+        CheckboxModule,
+        InputTextModule,
+        PaginatorModule,
+        FileUploadModule,
+        ButtonModule,
+        ToastModule
+    ]
 })
 export class ThuongMaiComponent implements OnInit {
     loading: boolean = false;
 
     constructor(
         private thuongMaiService: ThuongMaiServic,
-        private messageService: MessageService
+        private messageService: MessageService,
+        private confirmationService: ConfirmationService
     ) {}
 
     dataTM: ThuongMaiDTO[] = [];
@@ -99,7 +112,7 @@ export class ThuongMaiComponent implements OnInit {
         }
     }
 
-    can_Edit(id: string) {
+    cancel_Edit(id: string) {
         let index = this.arrIdEdit.indexOf(id);
 
         let index_arrDataEdit;
@@ -123,38 +136,80 @@ export class ThuongMaiComponent implements OnInit {
         if (message == 'Duplicate') {
         } else if (message == 'Success') {
             this.getData();
-            // this.showSuccess();
-            this.showSuccess('success', 'Upload Thành Công', 2000);
+            // this.showToast();
+            this.showToast('success', 'Upload Thành Công', 2000);
         }
     }
 
     saveEdit() {
         let data = JSON.stringify(this.arrEditData);
         console.log('🚀 ~ ThuongMaiComponent ~ saveEdit ~ data:', data);
-
-        this.thuongMaiService.saveEdit(data).subscribe((response) => {
-            console.log(response, 'response');
-            this.arrIdEdit = [];
-            this.getData();
-            this.showSuccess('success', 'Cập nhật Thành Công', 2000);
-        });
+        if (data == '[]') {
+            this.showToast('error', 'VUI LÒNG CHỌN DÒNG MUỐN CẬP NHẬT !', 2000);
+        } else {
+            this.thuongMaiService.saveEdit(data).subscribe((response) => {
+                console.log(response, 'response');
+                this.arrIdEdit = [];
+                this.arrEditData = [];
+                this.getData();
+                this.showToast('success', 'CẬP NHẬT THÀNH CÔNG !', 2000);
+            });
+        }
     }
 
     deleteSelected() {
         let param = JSON.stringify(this.checked);
-        this.thuongMaiService.deletedRow(param).subscribe((response) => {
-            console.log(response, 'response_Delete');
+        console.log('🚀 ~ ThuongMaiComponent ~ deleteSelected ~ param:', param);
+        if (param == 'false') {
+            this.showToast('error', 'VUI LÒNG CHỌN DÒNG MUỐN XÓA !', 2000);
+        } else {
+            this.confirmationService.confirm({
+                // target: event?.target as EventTarget,
+                message: 'Bạn có chắc chắn muốn xóa ?',
+                header: 'Thông Báo !',
+                closable: true,
+                closeOnEscape: true,
+                icon: 'pi pi-info-circle',
+                rejectButtonProps: {
+                    label: 'KHÔNG',
+                    severity: 'warning',
+                    outlined: true
+                },
+                acceptButtonProps: {
+                    label: 'XÓA',
+                    severity: 'danger'
+                },
+                accept: () => {
+                    let param = JSON.stringify(this.checked);
+                    this.thuongMaiService.deletedRow(param).subscribe((response) => {
+                        console.log(response, 'response_Delete');
 
-            this.getData();
-            this.showSuccess('success', 'Xóa Thành Công', 2000);
-        });
+                        this.getData();
+                        this.showToast('success', 'XÓA THÀNH CÔNG .', 2000);
+                        this.checked = false;
+                    });
+                    // this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted' });
+                }
+                // reject: () => {
+                //     this.messageService.add({
+                //         severity: 'error',
+                //         summary: 'Rejected',
+                //         detail: 'You have rejected',
+                //         life: 3000
+                //     });
+                // }
+            });
+        }
+        // let param = JSON.stringify(this.checked);
+        // this.thuongMaiService.deletedRow(param).subscribe((response) => {
+        //     console.log(response, 'response_Delete');
+
+        //     this.getData();
+        //     this.showToast('success', 'Xóa Thành Công', 2000);
+        // });
     }
 
-    updateWidth(value: string) {
-        let length = value.length;
-        // value.inputWidth = (length + 2) * 8;
-    }
-    showSuccess(serverity: string, summary: string, life: number) {
+    showToast(serverity: string, summary: string, life: number) {
         this.messageService.add({ severity: serverity, summary: summary, life: life });
         // this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Message Content', life: 2000 });
     }

@@ -15,7 +15,8 @@ export const appRoutes: Routes = [
             { path: 'documentation', component: Documentation },
             { path: 'pages', loadChildren: () => import('./app/pages/pages.routes') },
             { path: 'nhansu', loadComponent: () => import('./app/pages/modules/nhanSu/NhanSuComponent').then((m) => m.NhanSuComponent) },
-            { path: 'thuongmai', loadComponent: () => import('./app/pages/modules/thuong_mai/ThuongMaiComponent').then((m) => m.ThuongMaiComponent) }
+            { path: 'thuongmai', loadComponent: () => import('./app/pages/modules/thuongMai/ThuongMaiComponent').then((m) => m.ThuongMaiComponent) },
+            { path: 'kehoach', loadComponent: () => import('./app/pages/modules/kehoach/ke-hoach.component').then((m) => m.KeHoachComponent) }
         ]
     },
     { path: 'landing', component: Landing },

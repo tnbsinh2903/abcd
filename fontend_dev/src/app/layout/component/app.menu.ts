@@ -46,6 +46,10 @@ export class AppMenu {
                 ]
             },
             {
+                label: 'KẾ HOẠCH',
+                items: [{ label: 'Kế Hoạch Khách Hàng', icon: 'pi pi-fw pi-id-card', routerLink: ['/kehoach'] }]
+            },
+            {
                 label: 'UI Components',
                 items: [
                     { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', routerLink: ['/uikit/formlayout'] },

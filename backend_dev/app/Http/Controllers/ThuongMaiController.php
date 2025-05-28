@@ -205,6 +205,7 @@ class ThuongMaiController extends Controller
 
                 $key['updated_at'] = $day;
                 unset($key['created_at']);
+                unset($key['deleted_at']);
                 KhachHangThuongMai::where('id', $key['id'])->update($key['data']);
                 // echo json_encode($key['data']['id'], JSON_UNESCAPED_UNICODE);
             }

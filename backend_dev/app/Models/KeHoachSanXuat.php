@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class KeHoachSanXuat extends Model
 {
-    use SoftDeletes;
+    // use SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
@@ -15,6 +15,7 @@ class KeHoachSanXuat extends Model
      */
     protected $table = 'ke_hoach_san_xuat';
     protected $fillable = [
+        'id_thuong_mai',
         'po',
         'nhom_size',
         'slhd_tong',

@@ -1,0 +1,223 @@
+<div class="flex justify-between">
+    <h4>Thông Tin Khách Hàng</h4>
+    <!-- <div class="flex gap-1">
+        <p-fileupload mode="basic" name="excel" chooseIcon="pi pi-upload" url="http://backend_dev.test/api/thuongmai/upload" (onUpload)="uploadAuto($event)" maxFileSize="1000000" method="post" [auto]="true" chooseLabel="Up File" />
+        <p-button (onClick)="saveEdit()" label="Save" severity="help" icon="pi pi-check" />
+        <p-button (onClick)="deleteSelected()" label="Delete" severity="danger" icon="pi pi-trash" />
+    </div> -->
+</div>
+<div class="card">
+    <!-- [size]="'large'" -->
+    <div class="flex">
+        <p-iconfield iconPosition="left" class="ml-auto">
+            <p-inputicon>
+                <i class="pi pi-search"></i>
+            </p-inputicon>
+            <input pInputText type="text" (input)="search($event)" placeholder="Tìm kiếm" />
+        </p-iconfield>
+    </div>
+    <p-table
+        #dt2
+        showGridlines
+        [value]="dataTM"
+        page
+        [globalFilterFields]="['khach_hang', 'mau_model']"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [loading]="loading"
+        [paginator]="true"
+        [first]="first"
+        [rows]="rows"
+        [showCurrentPageReport]="true"
+        [showJumpToPageDropdown]="false"
+        currentPageReportTemplate="Rows {totalRecords}"
+    >
+        // [size]="'large'" showGridlines
+
+        <ng-template #header>
+            <tr class="font-bold custom_abc">
+                <th>Nhà máy</th>
+                <th>Khách hàng</th>
+                <th>Mã hàng</th>
+                <th>Màu/Model</th>
+                <th>Mùa</th>
+                <th>Hình in</th>
+                <th>Số hình in</th>
+                <!-- <th>SP bàn</th>
+                <th>SP oval</th>
+                <th>SP kiểm</th>
+                <th>SP sấy ép</th>
+                <th>SP ủi</th>
+                <th>SP chụp băng</th>
+                <th>SP pha màu</th> -->
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-dataTM>
+            <tr class="custom_abc1">
+                <td>{{ dataTM.nha_may }}</td>
+                <td>{{ dataTM.khach_hang }}</td>
+                <td>{{ dataTM.ma_hang }}</td>
+                <td>{{ dataTM.mau_model }}</td>
+                <td>{{ dataTM.mua }}</td>
+                <td>{{ dataTM.hinh_in }}</td>
+                <td>{{ dataTM.so_hinh_in }}</td>
+                <!-- <td>{{ dataTM.so_phut_ban == 0 ? '' : dataTM.so_phut_ban }}</td>
+                <td>{{ dataTM.so_phut_oval == 0 ? '' : dataTM.so_phut_oval }}</td
+                <td>{{ dataTM.so_phut_kiem == 0 ? '' : dataTM.so_phut_kiem }}</td>
+                <td>{{ dataTM.so_phut_say_ep == 0 ? '' : dataTM.so_phut_say_ep }}</td>
+                <td>{{ dataTM.so_phut_ui == 0 ? '' : dataTM.so_phut_ui }}</td>
+                <td>{{ dataTM.so_phut_chup_bang == 0 ? '' : dataTM.so_phut_chup_bang }}</td>
+                <td>{{ dataTM.so_phut_pha_mau == 0 ? '' : dataTM.so_phut_pha_mau }}</td>
+                <td>{{ dataTM.thuc_in == 0 ? '' : dataTM.thuc_in }}</td>
+                <td>{{ dataTM.don_gia == 0 ? '' : dataTM.don_gia }}</td>
+                <td>{{ dataTM.gia_von == 0 ? '' : dataTM.gia_von }}</td> -->
+                <td><i (click)="showTT(dataTM.id)" class="pi pi-eye cursor-pointer"></i></td>
+            </tr>
+        </ng-template>
+        <ng-template #emptymessage>
+            <tr>
+                <td class="text-center" colspan="18">Không Có Dữ Liệu.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+<!--  //(click)="showTT(dataTM.id)" -->
+<p-confirmdialog />
+<p-toast position="top-center" />
+<!-- (onPageChange)="onPageChange($event)" -->
+
+<!-- MODEL HIỆN DETAIL -->
+<p-drawer header="Chi tiết mã hàng" [(visible)]="visibleDrawer" position="right" styleClass="!w-full md:!w-80 lg:!w-[80rem]">
+    <p-table [value]="dataThuongMaiById" showGridlines [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template #header>
+            <tr class="header_detail_khach_hang">
+                <th>Khách hàng</th>
+                <th>Mã hàng</th>
+                <th>Màu</th>
+                <th>Mùa</th>
+                <th>Hình in</th>
+                <th>Số hình in</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-dataThuongMaiById>
+            <tr class="body_detail_khach_hang">
+                <td>{{ dataThuongMaiById.khach_hang }}</td>
+                <td>{{ dataThuongMaiById.ma_hang }}</td>
+                <td>{{ dataThuongMaiById.mau_model }}</td>
+                <td>{{ dataThuongMaiById.mua }}</td>
+                <td>{{ dataThuongMaiById.hinh_in }}</td>
+                <td>{{ dataThuongMaiById.so_hinh_in }}</td>
+            </tr>
+
+            <tr></tr
+        ></ng-template>
+    </p-table>
+
+    <div class="flex mb-2 mt-2">
+        <p-button (onClick)="showAdd()" size="small" label="Thêm Dòng" severity="help" icon="pi pi-plus" />
+        <p-button class="pl-2" size="small" label="Hủy" severity="danger" icon="pi pi-trash" />
+
+        <p-iconfield iconPosition="left" class="ml-auto">
+            <p-inputicon>
+                <i class="pi pi-search"></i>
+            </p-inputicon>
+            <input pInputText type="text" (input)="search($event)" placeholder="Tìm kiếm" />
+        </p-iconfield>
+    </div>
+    <p-table
+        #dt3
+        showGridlines
+        [value]="dataKH"
+        page
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [loading]="loading"
+        [paginator]="true"
+        [first]="first"
+        [rows]="rows"
+        [showCurrentPageReport]="true"
+        [showJumpToPageDropdown]="false"
+        currentPageReportTemplate="Rows {totalRecords}"
+    >
+        <ng-template #header>
+            <tr class="font-bold header_detail_khach_hang">
+                <th>STT</th>
+                <th>PO</th>
+                <th>SLHĐ Tổn</th>
+                <th>SLHĐ</th>
+                <th>Size</th>
+                <th>Thực In</th>
+                <th>Số Phút</th>
+                <th [colSpan]="3"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-dataKH let-rowIndex="rowIndex">
+            <tr class="body_detail_khach_hang">
+                <td>{{ rowIndex + 1 }}</td>
+                <td>{{ dataKH.po }}</td>
+                <td>{{ dataKH.slhd_tong }}</td>
+                <td>{{ dataKH.slhd }}</td>
+                <td>{{ dataKH.nhom_size }}</td>
+                <td>{{ dataKH.thuc_in_po }}</td>
+                <td>{{ dataKH.so_phut }}</td>
+                <td>
+                    <i class="pi pi-eye"></i>
+                </td>
+                <td>
+                    <i class="pi pi-pen-to-square"></i>
+                </td>
+                <td>
+                    <i class="pi pi-trash"></i>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template #emptymessage>
+            <tr>
+                <td class="text-center" colspan="18">Không Có Dữ Liệu.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-drawer>
+
+<p-drawer [(visible)]="visibleDrawerAddData" position="right" styleClass="!w-full md:!w-80 lg:!w-[50rem]">
+    <ng-template pTemplate="header">
+        <div class="flex items-center justify-between w-full">
+            <span class="text-lg font-semibold">Thêm dữ liệu</span>
+            <div class="flex gap-2">
+                <button pButton type="button" (click)="addRow()" icon="pi pi-plus" label="Thêm Hàng" severity="primary" size="small"></button>
+                <button pButton type="button" (click)="save_data()" icon="pi pi-save" label="Lưu" severity="success" size="small"></button>
+                <button pButton type="button" (click)="cancel_add()" icon="pi pi-dark" label="Hủy" severity="success" size="small"></button>
+                <button pButton type="button" icon="pi pi-times" label="Đóng" severity="secondary" size="small" (click)="visibleDrawer = false"></button>
+            </div>
+        </div>
+    </ng-template>
+    <p-table showGridlines [value]="dataAdd" [tableStyle]="{ 'min-width': '30rem' }">
+        <!-- Template cho header -->
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Po</th>
+                <th>SLHĐ Tổng</th>
+                <th>SLHĐ</th>
+                <th>Size</th>
+                <th hidden>Size</th>
+            </tr>
+        </ng-template>
+
+        <!-- Template cho body -->
+        <ng-template let-dataAdd pTemplate="body">
+            <tr>
+                <td><input pSize="small" class="w-28" [(ngModel)]="dataAdd.po" type="text" pInputText /></td>
+                <td><input pSize="small" class="w-28" [(ngModel)]="dataAdd.slhd_tong" type="text" pInputText /></td>
+                <td><input pSize="small" class="w-28" [(ngModel)]="dataAdd.slhd" type="text" pInputText /></td>
+                <td><input pSize="small" class="w-28" [(ngModel)]="dataAdd.size" type="text" pInputText /></td>
+                <td hidden><input [(ngModel)]="dataAdd.id_thuong_mai" type="text" /></td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-drawer>
+<!-- <p-drawer [(visible)]="visibleDrawerAddData" position="right" styleClass="!w-full md:!w-80 lg:!w-[50rem]">
+     <p-table [value]="dataAdd" [tableStyle]="{ 'min-width': '30rem' }">
+     </p-table>
+</p-drawer> -->

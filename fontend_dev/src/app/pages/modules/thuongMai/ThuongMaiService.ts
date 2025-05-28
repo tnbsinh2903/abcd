@@ -24,7 +24,9 @@ export class ThuongMaiServic {
     }
 
     deletedRow(data: any): Observable<any> {
-        console.log('🚀 ~ ThuongMaiServic ~ deletedRow ~ data:', data);
+        // console.log('🚀 ~ ThuongMaiServic ~ deletedRow ~ data:', data);
+        return this.http.post(`${this.baseUrl}delete`, JSON.parse(data));
+
         return this.http.post(`${this.baseUrl}delete`, JSON.parse(data));
     }
 }
