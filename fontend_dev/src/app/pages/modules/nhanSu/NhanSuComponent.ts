@@ -4,14 +4,19 @@ import { TableModule } from 'primeng/table';
 import 'primeicons/primeicons.css';
 import { PrimeIcons } from 'primeng/api';
 import { CardModule } from 'primeng/card';
+import { NhanSuService } from '../../service';
 @Component({
     selector: ' app-nhan-su',
     templateUrl: './NhanSuComponent.html',
     styleUrls: ['./NhanSuComponent.scss'],
     imports: [TableModule]
 })
-export class NhanSuComponent {
-    constructor() {}
+export class NhanSuComponent implements OnInit {
+    constructor(private nhanSuService: NhanSuService) {}
+    ngOnInit(): void {
+        this.loadData();
+        throw new Error('Method not implemented.');
+    }
 
     nhansu: NhanSu[] = [
         {
@@ -30,4 +35,11 @@ export class NhanSuComponent {
     ];
     // nhansu: NhanSu[] = [];
     // console.log("🚀 ~ NhanSuComponent ~ nhansu:", this.nhansu);
+
+    loadData() {
+        this.nhanSuService.getAll().subscribe((response) => {
+            this.nhansu = response;
+            console.log('🚀 ~ NhanSuComponent ~ this.nhanSuService.getAll ~ response:', response);
+        });
+    }
 }

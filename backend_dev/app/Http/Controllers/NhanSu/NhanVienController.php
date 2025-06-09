@@ -1,33 +1,30 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\NhanSu;
+
+use App\DTOs\NhanVienDTO;
+use App\Http\Controllers\Controller;
 
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 
-use App\Models\NhanVien;
+use App\Models\NhanSu\NhanVien;
+use App\Services\NhanSuService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-use function PHPUnit\Framework\isNull;
-
 class NhanVienController extends Controller
 {
 
+    public function __construct(private NhanSuService $nhanSuService) {}
     use HasApiTokens, HasFactory, Notifiable;
 
     public function findAll()
     {
-        try {
-            $nhanVien = NhanVien::all();
-            return response($nhanVien, 200);
-        } catch (\Exception $th) {
-            return response()->json(['error' => $th->getMessage()], 500);
-        }
+        return   $this->nhanSuService->getAll();
     }
     public function create(Request $request)
-
     // dd($request->all());
     // $request->validate([
     //     'ho_ten' => 'required|string|max:255',
@@ -48,11 +45,15 @@ class NhanVienController extends Controller
             $data = $request->all();
             // dd($data);
 
+            $nhanVienDto = NhanVienDTO::fromArray_Create($data);
             $data['mat_khau'] = bcrypt($data['mat_khau']);
             $data['ngay_vao'] = date('Y-m-d');
-            NhanVien::create($data);
 
-            return response()->json(['message' => 'success'], 200);
+
+            // NhanVien::create($data);
+
+            return response()->json($nhanVienDto, 200);
+            // return response()->json(['message' => 'success'], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

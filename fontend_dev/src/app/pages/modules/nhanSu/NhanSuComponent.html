@@ -3,18 +3,28 @@
     <p-table showGridlines [value]="nhansu" [tableStyle]="{ 'min-width': '50rem' }">
         <ng-template pTemplate="header">
             <tr>
-                <th>Mã Số</th>
                 <th>Tên</th>
+                <th>Mã Số</th>
                 <th>SĐT</th>
-                <!-- <th>Bộ Phận</th>
-            <th>Vị Trí</th> -->
-                <th>hđ</th>
+                <th>Địa Chỉ</th>
+                <th>Bộ Phận</th>
+                <th>Chức Vụ</th>
+                <th>Nhóm</th>
+                <th>Thâm Niên</th>
+                <th>Phép Tồn</th>
+                <th></th>
             </tr>
         </ng-template>
         <ng-template #body let-product>
             <tr>
-                <td>{{ product.ma_so }}</td>
-                <td>{{ product.ho_ten }}</td>
+                <td>{{ product.hoTen }}</td>
+                <td>{{ product.maSo }}</td>
+                <td>{{ product.sdt }}</td>
+                <td>{{ product.diaChi }}</td>
+                <td>{{ product.maSo }}</td>
+                <td>{{ product.sdt }}</td>
+                <td>{{ product.hoTen }}</td>
+                <td>{{ product.maSo }}</td>
                 <td>{{ product.sdt }}</td>
                 <!-- <td>{{ product.quantity }}</td> -->
                 <td><i class="pi pi-trash" style="color: slateblue"></i></td>
